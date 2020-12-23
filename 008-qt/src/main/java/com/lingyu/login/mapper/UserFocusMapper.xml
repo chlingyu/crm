@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.UserFocusMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.UserFocus">
+    <id column="focusid" jdbcType="INTEGER" property="focusid" />
+    <result column="uid1" jdbcType="INTEGER" property="uid1" />
+    <result column="uid2" jdbcType="INTEGER" property="uid2" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    focusid, uid1, uid2, addtime
+  </sql>
+  <select id="getFocusByfUidAndUId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_focus
+    where uid1 = #{fUid} and uid2=#{user}
+  </select>
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user-focus
+    where focusid = #{focusid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user-focus
+    where focusid = #{focusid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.UserFocus">
+    insert into user-focus (focusid, uid1, uid2, 
+      addtime)
+    values (#{focusid,jdbcType=INTEGER}, #{uid1,jdbcType=INTEGER}, #{uid2,jdbcType=INTEGER}, 
+      #{addtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.UserFocus">
+    insert into user-focus
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="focusid != null">
+        focusid,
+      </if>
+      <if test="uid1 != null">
+        uid1,
+      </if>
+      <if test="uid2 != null">
+        uid2,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="focusid != null">
+        #{focusid,jdbcType=INTEGER},
+      </if>
+      <if test="uid1 != null">
+        #{uid1,jdbcType=INTEGER},
+      </if>
+      <if test="uid2 != null">
+        #{uid2,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.UserFocus">
+    update user-focus
+    <set>
+      <if test="uid1 != null">
+        uid1 = #{uid1,jdbcType=INTEGER},
+      </if>
+      <if test="uid2 != null">
+        uid2 = #{uid2,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where focusid = #{focusid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.UserFocus">
+    update user-focus
+    set uid1 = #{uid1,jdbcType=INTEGER},
+      uid2 = #{uid2,jdbcType=INTEGER},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where focusid = #{focusid,jdbcType=INTEGER}
+  </update>
+</mapper>

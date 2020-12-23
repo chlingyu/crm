@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.active.mapper.ActivityMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.active.model.Activity">
+    <id column="actid" jdbcType="INTEGER" property="actid" />
+    <result column="postBegin" jdbcType="VARCHAR" property="postBegin" />
+    <result column="postEnd" jdbcType="VARCHAR" property="postEnd" />
+    <result column="beginTime" jdbcType="VARCHAR" property="beginTime" />
+    <result column="endTime" jdbcType="VARCHAR" property="endTime" />
+    <result column="lastTime" jdbcType="INTEGER" property="lastTime" />
+    <result column="actPrice" jdbcType="INTEGER" property="actPrice" />
+    <result column="actName" jdbcType="VARCHAR" property="actName" />
+    <result column="actImg" jdbcType="VARCHAR" property="actImg" />
+    <result column="lng" jdbcType="VARCHAR" property="lng" />
+    <result column="lat" jdbcType="VARCHAR" property="lat" />
+    <result column="actDetail" jdbcType="VARCHAR" property="actDetail" />
+    <result column="actCity" jdbcType="VARCHAR" property="actCity" />
+    <result column="actAddress" jdbcType="VARCHAR" property="actAddress" />
+    <result column="actNum" jdbcType="INTEGER" property="actNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    actid, postBegin, postEnd, beginTime, endTime, lastTime, actPrice, actName, actImg, 
+    lng, lat, actDetail, actCity, actAddress, actNum
+  </sql>
+
+  <select id="getActivityList"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from activity
+  </select>
+
+  <insert id="test" parameterType="com.lingyu.active.model.Activity">
+    insert into activity (postBegin, postEnd,
+      beginTime, endTime, lastTime,
+      actPrice, actName, actImg,
+      lng, lat, actDetail,
+      actCity, actAddress, actNum
+      )
+    values (#{postBegin}, #{postEnd},
+      #{beginTime}, #{endTime}, #{lastTime},
+      #{actPrice}, #{actName}, #{actImg},
+      #{lng}, #{lat}, #{actDetail},
+      #{actCity}, #{actAddress}, #{actNum}
+      )
+  </insert>
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from activity
+    where actid = #{actid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from activity
+    where actid = #{actid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.active.model.Activity">
+    insert into activity (actid, postBegin, postEnd, 
+      beginTime, endTime, lastTime, 
+      actPrice, actName, actImg, 
+      lng, lat, actDetail, 
+      actCity, actAddress, actNum
+      )
+    values (#{actid,jdbcType=INTEGER}, #{postBegin,jdbcType=TIMESTAMP}, #{postEnd,jdbcType=TIMESTAMP}, 
+      #{beginTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=INTEGER}, 
+      #{actPrice,jdbcType=INTEGER}, #{actName,jdbcType=VARCHAR}, #{actImg,jdbcType=VARCHAR}, 
+      #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{actDetail,jdbcType=VARCHAR}, 
+      #{actCity,jdbcType=VARCHAR}, #{actAddress,jdbcType=VARCHAR}, #{actNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.active.model.Activity">
+    insert into activity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="actid != null">
+        actid,
+      </if>
+      <if test="postBegin != null">
+        postBegin,
+      </if>
+      <if test="postEnd != null">
+        postEnd,
+      </if>
+      <if test="beginTime != null">
+        beginTime,
+      </if>
+      <if test="endTime != null">
+        endTime,
+      </if>
+      <if test="lastTime != null">
+        lastTime,
+      </if>
+      <if test="actPrice != null">
+        actPrice,
+      </if>
+      <if test="actName != null">
+        actName,
+      </if>
+      <if test="actImg != null">
+        actImg,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="actDetail != null">
+        actDetail,
+      </if>
+      <if test="actCity != null">
+        actCity,
+      </if>
+      <if test="actAddress != null">
+        actAddress,
+      </if>
+      <if test="actNum != null">
+        actNum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="actid != null">
+        #{actid,jdbcType=INTEGER},
+      </if>
+      <if test="postBegin != null">
+        #{postBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postEnd != null">
+        #{postEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        #{lastTime,jdbcType=INTEGER},
+      </if>
+      <if test="actPrice != null">
+        #{actPrice,jdbcType=INTEGER},
+      </if>
+      <if test="actName != null">
+        #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="actImg != null">
+        #{actImg,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="actDetail != null">
+        #{actDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="actCity != null">
+        #{actCity,jdbcType=VARCHAR},
+      </if>
+      <if test="actAddress != null">
+        #{actAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="actNum != null">
+        #{actNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.active.model.Activity">
+    update activity
+    <set>
+      <if test="postBegin != null">
+        postBegin = #{postBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="postEnd != null">
+        postEnd = #{postEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="beginTime != null">
+        beginTime = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        endTime = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastTime != null">
+        lastTime = #{lastTime,jdbcType=INTEGER},
+      </if>
+      <if test="actPrice != null">
+        actPrice = #{actPrice,jdbcType=INTEGER},
+      </if>
+      <if test="actName != null">
+        actName = #{actName,jdbcType=VARCHAR},
+      </if>
+      <if test="actImg != null">
+        actImg = #{actImg,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="actDetail != null">
+        actDetail = #{actDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="actCity != null">
+        actCity = #{actCity,jdbcType=VARCHAR},
+      </if>
+      <if test="actAddress != null">
+        actAddress = #{actAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="actNum != null">
+        actNum = #{actNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where actid = #{actid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.active.model.Activity">
+    update activity
+    set postBegin = #{postBegin,jdbcType=TIMESTAMP},
+      postEnd = #{postEnd,jdbcType=TIMESTAMP},
+      beginTime = #{beginTime,jdbcType=TIMESTAMP},
+      endTime = #{endTime,jdbcType=TIMESTAMP},
+      lastTime = #{lastTime,jdbcType=INTEGER},
+      actPrice = #{actPrice,jdbcType=INTEGER},
+      actName = #{actName,jdbcType=VARCHAR},
+      actImg = #{actImg,jdbcType=VARCHAR},
+      lng = #{lng,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      actDetail = #{actDetail,jdbcType=VARCHAR},
+      actCity = #{actCity,jdbcType=VARCHAR},
+      actAddress = #{actAddress,jdbcType=VARCHAR},
+      actNum = #{actNum,jdbcType=INTEGER}
+    where actid = #{actid,jdbcType=INTEGER}
+  </update>
+</mapper>

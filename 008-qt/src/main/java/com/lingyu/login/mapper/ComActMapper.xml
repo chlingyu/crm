@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.ComActMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.ComAct">
+    <id column="comactid" jdbcType="INTEGER" property="comactid" />
+    <result column="actid" jdbcType="INTEGER" property="actid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="scores" jdbcType="REAL" property="scores" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lingyu.login.model.ComAct">
+    <result column="comcontent" jdbcType="LONGVARCHAR" property="comcontent" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    comactid, actid, uid, scores, addtime
+  </sql>
+  <sql id="Blob_Column_List">
+    comcontent
+  </sql>
+
+  <select id="countComActByActId"  resultType="java.lang.Integer">
+    select
+        count(*)
+    from com_act
+    where actid = #{actid,jdbcType=INTEGER}
+  </select>
+  <select id="getUserAndComActByActId"  resultType="com.lingyu.login.model.UserAndComAct">
+    select
+        b.uname as uname,b.avatar as avatar,a.comcontent as comcontent,a.addtime as addtime,a.scores as scores,a.comactid as comactid
+    from com_act a
+    join user b
+    on a.uid=b.uid
+    where actid = #{actid}
+    order by addtime desc
+    limit 0,6
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from com_act
+    where comactid = #{comactid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from com_act
+    where comactid = #{comactid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.ComAct">
+    insert into com_act (comactid, actid, uid, 
+      scores, addtime, comcontent
+      )
+    values (#{comactid,jdbcType=INTEGER}, #{actid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{scores,jdbcType=REAL}, #{addtime,jdbcType=TIMESTAMP}, #{comcontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.ComAct">
+    insert into com_act
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="comactid != null">
+        comactid,
+      </if>
+      <if test="actid != null">
+        actid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="scores != null">
+        scores,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="comcontent != null">
+        comcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="comactid != null">
+        #{comactid,jdbcType=INTEGER},
+      </if>
+      <if test="actid != null">
+        #{actid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="scores != null">
+        #{scores,jdbcType=REAL},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comcontent != null">
+        #{comcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.ComAct">
+    update com_act
+    <set>
+      <if test="actid != null">
+        actid = #{actid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="scores != null">
+        scores = #{scores,jdbcType=REAL},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comcontent != null">
+        comcontent = #{comcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where comactid = #{comactid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lingyu.login.model.ComAct">
+    update com_act
+    set actid = #{actid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      scores = #{scores,jdbcType=REAL},
+      addtime = #{addtime,jdbcType=TIMESTAMP},
+      comcontent = #{comcontent,jdbcType=LONGVARCHAR}
+    where comactid = #{comactid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.ComAct">
+    update com_act
+    set actid = #{actid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      scores = #{scores,jdbcType=REAL},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where comactid = #{comactid,jdbcType=INTEGER}
+  </update>
+</mapper>

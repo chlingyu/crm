@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.UserImgMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.UserImg">
+    <id column="pid" jdbcType="INTEGER" property="pid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pid, uid, img
+  </sql>
+
+  <select id="getUserImgByUid" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user_img
+    where uid = #{user}
+  </select>
+  <insert id="insertUserImgByUid" >
+    insert into user_img (uid, img
+      )
+    values ( #{uid}, #{fileName}
+      )
+  </insert>
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user-img
+    where pid = #{pid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user-img
+    where pid = #{pid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.UserImg">
+    insert into user-img (pid, uid, img
+      )
+    values (#{pid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.UserImg">
+    insert into user-img
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pid != null">
+        #{pid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.UserImg">
+    update user-img
+    <set>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.UserImg">
+    update user-img
+    set uid = #{uid,jdbcType=INTEGER},
+      img = #{img,jdbcType=VARCHAR}
+    where pid = #{pid,jdbcType=INTEGER}
+  </update>
+</mapper>

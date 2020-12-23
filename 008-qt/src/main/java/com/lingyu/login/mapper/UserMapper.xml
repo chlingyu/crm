@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.UserMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.User">
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="vipRank" jdbcType="TINYINT" property="vipRank" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="charm" jdbcType="VARCHAR" property="charm" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="money" jdbcType="REAL" property="money" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="isResetPwd" jdbcType="VARCHAR" property="isResetPwd" />
+  </resultMap>
+
+  <resultMap id="UserAndInfoMap" type="com.lingyu.login.model.UserAndInfo">
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <id column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+    <id column="infoid" jdbcType="INTEGER" property="infoid" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="uname" jdbcType="VARCHAR" property="uname" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="vipRank" jdbcType="TINYINT" property="vipRank" />
+    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+    <result column="charm" jdbcType="VARCHAR" property="charm" />
+    <result column="openid" jdbcType="VARCHAR" property="openid" />
+    <result column="money" jdbcType="REAL" property="money" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="isResetPwd" jdbcType="VARCHAR" property="isResetPwd" />
+    <result column="age" jdbcType="TINYINT" property="age" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="height" jdbcType="VARCHAR" property="height" />
+    <result column="income" jdbcType="VARCHAR" property="income" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="marry" jdbcType="VARCHAR" property="marry" />
+    <result column="workArea" jdbcType="VARCHAR" property="workArea" />
+    <result column="hasChild" jdbcType="VARCHAR" property="hasChild" />
+    <result column="wantChild" jdbcType="VARCHAR" property="wantChild" />
+    <result column="isSmoke" jdbcType="VARCHAR" property="isSmoke" />
+    <result column="isDrink" jdbcType="VARCHAR" property="isDrink" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uid, addtime, phone, uname, pwd, vipRank, avatar, charm, openid, money, status, sex,
+    isResetPwd
+  </sql>
+  <sql id="User_Info_List">
+     a.uid as uid, addtime, phone, uname, pwd, vipRank, avatar, charm, openid, money, status,a.sex as sex,
+    isResetPwd,infoid, age, address, height, income, education, weight, birthday, marry,
+    workArea, hasChild, wantChild, isSmoke, isDrink
+
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where uid = #{uid,jdbcType=INTEGER}
+      and addtime = #{addtime,jdbcType=TIMESTAMP}
+  </select>
+
+  <select id="getUserJoinInfo"  resultMap="UserAndInfoMap">
+    select
+    <include refid="User_Info_List"></include>
+    from user a
+    left join user_info b
+    on a.uid=b.uid
+    where a.uid = #{uid}
+  </select>
+
+  <select id="getRecommend"  resultType="com.lingyu.login.model.UserAndInfoAndPartner">
+    select
+        a.uid as uid,a.uname as uname,a.avatar as avatar,
+        b.address as address,b.workArea as workArea,b.age as age,b.height as height,
+        c.income,c.height as pheight,c.address as paddress,c.age as page
+    from user a
+    join user_info b
+    on a.uid=b.uid
+    join user_partner c
+    on b.uid=c.uid
+    where a.sex = "女"
+    limit 0,4
+  </select>
+
+
+
+  <select id="getUser"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where sex="女" and avatar!="touxian1.jpg"
+    order by uid desc
+    limit 0,16
+  </select>
+
+
+
+  <select id="getUserByPhone" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where phone=#{phone}
+  </select>
+
+  <insert id="insertUser" parameterType="com.lingyu.login.model.User">
+    insert into user ( phone,
+      uname, pwd,
+      avatar, charm,
+      money, status, sex, isResetPwd
+      )
+    values ( #{phone},
+      #{uname}, #{pwd},
+      #{avatar}, #{charm},
+      #{money}, #{status}, #{sex}, #{isResetPwd}
+      )
+  </insert>
+
+  <select id="getUserByPhoneAndPwd" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where phone=#{phone} and pwd=#{pwd}
+  </select>
+  <update id="updateResetPwdByPhone" >
+    update user
+    set
+      isResetPwd = "是"
+    where phone = #{phone}
+  </update>
+
+  <select id="getUserByUid"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where uid=#{user}
+  </select>
+  <update id="updateUnameByUid" >
+    update user
+    set
+      uname = #{uname,jdbcType=VARCHAR}
+    where uid = #{uid}
+  </update>
+  <update id="updateUseravatarByUid" >
+    update user
+    set
+      avatar = #{fileName}
+    where uid = #{uid}
+  </update>
+  <update id="updateMoneyByUid" >
+    update user
+    set
+      money = #{money}
+
+    where uid = #{uid}
+  </update>
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from user
+    where uid = #{uid,jdbcType=INTEGER}
+      and addtime = #{addtime,jdbcType=TIMESTAMP}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.User">
+    insert into user (uid, addtime, phone, 
+      uname, pwd, vipRank, 
+      avatar, charm, openid, 
+      money, status, sex, isResetPwd
+      )
+    values (#{uid,jdbcType=INTEGER}, #{addtime,jdbcType=TIMESTAMP}, #{phone,jdbcType=VARCHAR}, 
+      #{uname,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{vipRank,jdbcType=TINYINT}, 
+      #{avatar,jdbcType=VARCHAR}, #{charm,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+      #{money,jdbcType=REAL}, #{status,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{isResetPwd,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.User">
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="uname != null">
+        uname,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="vipRank != null">
+        vipRank,
+      </if>
+      <if test="avatar != null">
+        avatar,
+      </if>
+      <if test="charm != null">
+        charm,
+      </if>
+      <if test="openid != null">
+        openid,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="isResetPwd != null">
+        isResetPwd,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="vipRank != null">
+        #{vipRank,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="charm != null">
+        #{charm,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=REAL},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="isResetPwd != null">
+        #{isResetPwd,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.User">
+    update user
+    <set>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="uname != null">
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="vipRank != null">
+        vipRank = #{vipRank,jdbcType=TINYINT},
+      </if>
+      <if test="avatar != null">
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="charm != null">
+        charm = #{charm,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null">
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=REAL},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="isResetPwd != null">
+        isResetPwd = #{isResetPwd,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+      and addtime = #{addtime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.User">
+    update user
+    set phone = #{phone,jdbcType=VARCHAR},
+      uname = #{uname,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      vipRank = #{vipRank,jdbcType=TINYINT},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      charm = #{charm,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      money = #{money,jdbcType=REAL},
+      status = #{status,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      isResetPwd = #{isResetPwd,jdbcType=VARCHAR}
+    where uid = #{uid,jdbcType=INTEGER}
+      and addtime = #{addtime,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="008-qt" />
+        <module name="003-intercept" />
+        <module name="007-war" />
+        <module name="006encoding" />
+        <module name="filter-1" />
+        <module name="005servlet2" />
+        <module name="003servlet" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="003-intercept" target="1.8" />
+      <module name="003servlet" target="1.8" />
+      <module name="005servlet2" target="1.8" />
+      <module name="006encoding" target="1.8" />
+      <module name="007-war" target="1.8" />
+      <module name="008-logback" target="1.8" />
+      <module name="008-qt" target="1.8" />
+      <module name="009-test" target="1.8" />
+      <module name="037-springboot-war" target="1.8" />
+      <module name="filter-1" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="003-intercept" options="-parameters" />
+      <module name="003servlet" options="-parameters" />
+      <module name="005servlet2" options="-parameters" />
+      <module name="006encoding" options="-parameters" />
+      <module name="007-war" options="-parameters" />
+      <module name="008-logback" options="-parameters" />
+      <module name="008-qt" options="-parameters" />
+      <module name="009-test" options="-parameters" />
+      <module name="037-springboot-war" options="-parameters" />
+      <module name="filter-1" options="-parameters" />
+    </option>
+  </component>
+</project>

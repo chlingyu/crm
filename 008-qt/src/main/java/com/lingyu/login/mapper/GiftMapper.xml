@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.GiftMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.Gift">
+    <id column="giftid" jdbcType="INTEGER" property="giftid" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+    <result column="charm" jdbcType="VARCHAR" property="charm" />
+    <result column="giftname" jdbcType="VARCHAR" property="giftname" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    giftid, img, charm, giftname
+  </sql>
+  <select id="getGift" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from gift
+  </select>
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from gift
+    where giftid = #{giftid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from gift
+    where giftid = #{giftid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.Gift">
+    insert into gift (giftid, img, charm, 
+      giftname)
+    values (#{giftid,jdbcType=INTEGER}, #{img,jdbcType=VARCHAR}, #{charm,jdbcType=VARCHAR}, 
+      #{giftname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.Gift">
+    insert into gift
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="giftid != null">
+        giftid,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+      <if test="charm != null">
+        charm,
+      </if>
+      <if test="giftname != null">
+        giftname,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="giftid != null">
+        #{giftid,jdbcType=INTEGER},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="charm != null">
+        #{charm,jdbcType=VARCHAR},
+      </if>
+      <if test="giftname != null">
+        #{giftname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.Gift">
+    update gift
+    <set>
+      <if test="img != null">
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="charm != null">
+        charm = #{charm,jdbcType=VARCHAR},
+      </if>
+      <if test="giftname != null">
+        giftname = #{giftname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where giftid = #{giftid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.Gift">
+    update gift
+    set img = #{img,jdbcType=VARCHAR},
+      charm = #{charm,jdbcType=VARCHAR},
+      giftname = #{giftname,jdbcType=VARCHAR}
+    where giftid = #{giftid,jdbcType=INTEGER}
+  </update>
+</mapper>

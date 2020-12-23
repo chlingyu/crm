@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.user.mapper.EmpMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.user.model.Emp">
+    <id column="empid" jdbcType="INTEGER" property="empid" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="roleid" jdbcType="INTEGER" property="roleid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    empid, account, nickname, pwd, roleid
+  </sql>
+
+
+  <select id="getTotalByAccount"  resultType="java.lang.Integer">
+    select
+     count(empid)
+    from sys_emp
+    where account like '%' #{account} '%'
+  </select>
+
+
+  <select id="getEmpByAccount"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_emp
+    where  account like '%' #{account} '%'
+    limit #{start},#{per_page}
+  </select>
+
+  <select id="getEmpPerpage"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_emp
+    limit #{start},#{per_page}
+  </select>
+
+  <select id="getEmpList"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_emp
+  </select>
+  <update id="updateEmp" >
+    update sys_emp
+    set
+      nickname = #{nickname},
+      pwd = #{xpwd},
+      roleid = #{roleid}
+    where empid = #{empid}
+  </update>
+  <select id="getEmpById"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_emp
+    where empid=#{empid}
+  </select>
+  <select id="getEmpForAccount"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_emp
+    where  account=#{account}
+  </select>
+  <insert id="insertEmp" >
+    insert into sys_emp (account, nickname,
+      pwd, roleid)
+    values (#{account}, #{nickname},
+      #{pwd}, #{roleid})
+  </insert>
+  <delete id="deleteByEmpid" >
+    delete from sys_emp
+    where empid = #{empid}
+  </delete>
+
+
+
+
+
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_emp
+    where empid = #{empid,jdbcType=INTEGER}
+  </select>
+
+
+  <select id="selectEmp"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from sys_emp
+    where account = #{nam,jdbcType=VARCHAR}
+    and pwd = #{pwd,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from sys_emp
+    where empid = #{empid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.user.model.Emp">
+    insert into sys_emp (empid, account, nickname, 
+      pwd, roleid)
+    values (#{empid,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{nickname,jdbcType=VARCHAR}, 
+      #{pwd,jdbcType=VARCHAR}, #{roleid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.user.model.Emp">
+    insert into sys_emp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="empid != null">
+        empid,
+      </if>
+      <if test="account != null">
+        account,
+      </if>
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="roleid != null">
+        roleid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="empid != null">
+        #{empid,jdbcType=INTEGER},
+      </if>
+      <if test="account != null">
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null">
+        #{roleid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.user.model.Emp">
+    update sys_emp
+    <set>
+      <if test="account != null">
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="roleid != null">
+        roleid = #{roleid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where empid = #{empid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.user.model.Emp">
+    update sys_emp
+    set account = #{account,jdbcType=VARCHAR},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      roleid = #{roleid,jdbcType=INTEGER}
+    where empid = #{empid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.UserTagMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.UserTag">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+  </resultMap>
+
+
+  <resultMap id="UserAndHobbyForTagMap" type="com.lingyu.login.model.UserAndHobbyForTag">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="tid" jdbcType="INTEGER" property="tid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, tid, uid
+  </sql>
+  <select id="getTagByUid"  resultMap="BaseResultMap">
+    select a.tid as tid,b.content as content,a.id as id,a.uid as uid
+    from user_tag a
+    join hobby_tag b
+    on a.tid=b.tid
+    where uid = #{user}
+  </select>
+  <delete id="deleteByUid" >
+    delete from user_tag
+    where uid = #{uid}
+  </delete>
+  <insert id="insertUserByUidAndArray" >
+
+    Insert into user_tag (uid,tid) values
+    <foreach collection="a" item="item" separator=",">
+      (#{uid},#{item})
+    </foreach>
+
+  </insert>
+
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user-tag
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user-tag
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.UserTag">
+    insert into user-tag (id, tid, uid)
+    values (#{id,jdbcType=INTEGER}, #{tid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.UserTag">
+    insert into user-tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="tid != null">
+        #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.UserTag">
+    update user-tag
+    <set>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.UserTag">
+    update user-tag
+    set tid = #{tid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

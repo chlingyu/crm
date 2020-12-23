@@ -1,0 +1,23 @@
+package com.lingyu.user.mapper;
+
+import com.lingyu.user.model.Menu;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+@Mapper
+public interface MenuMapper {
+    int deleteByPrimaryKey(Integer menuid);
+
+    int insert(Menu record);
+
+    int insertSelective(Menu record);
+
+    Menu selectByPrimaryKey(Integer menuid);
+
+    int updateByPrimaryKeySelective(Menu record);
+
+    int updateByPrimaryKey(Menu record);
+
+    List<Menu> getMenu();
+}

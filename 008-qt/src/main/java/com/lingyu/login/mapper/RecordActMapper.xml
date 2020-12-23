@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingyu.login.mapper.RecordActMapper">
+  <resultMap id="BaseResultMap" type="com.lingyu.login.model.RecordAct">
+    <id column="ractid" jdbcType="VARCHAR" property="ractid" />
+    <result column="actid" jdbcType="INTEGER" property="actid" />
+    <result column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="addtime" jdbcType="TIMESTAMP" property="addtime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ractid, actid, uid, state, addtime
+  </sql>
+  <select id="getRecordActByUidAndActId"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from record_act
+    where actid = #{actid} and uid=#{uid} and (state="未支付" or state="已支付")
+  </select>
+  <select id="getUserByActIdAndState" resultType="com.lingyu.login.model.UserAndRecordAct">
+    select
+        b.uname,b.sex,b.avatar,b.charm
+    from record_act a
+    join user b
+    on a.uid=b.uid
+    where actid = #{actid} and (state="已支付" or state="待评价" or state = "已评价")
+  </select>
+
+
+
+
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from record_act
+    where ractid = #{ractid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from record_act
+    where ractid = #{ractid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.lingyu.login.model.RecordAct">
+    insert into record_act (ractid, actid, uid, 
+      state, addtime)
+    values (#{ractid,jdbcType=VARCHAR}, #{actid,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, 
+      #{state,jdbcType=VARCHAR}, #{addtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lingyu.login.model.RecordAct">
+    insert into record_act
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ractid != null">
+        ractid,
+      </if>
+      <if test="actid != null">
+        actid,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="addtime != null">
+        addtime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ractid != null">
+        #{ractid,jdbcType=VARCHAR},
+      </if>
+      <if test="actid != null">
+        #{actid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lingyu.login.model.RecordAct">
+    update record_act
+    <set>
+      <if test="actid != null">
+        actid = #{actid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null">
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="addtime != null">
+        addtime = #{addtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ractid = #{ractid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lingyu.login.model.RecordAct">
+    update record_act
+    set actid = #{actid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      state = #{state,jdbcType=VARCHAR},
+      addtime = #{addtime,jdbcType=TIMESTAMP}
+    where ractid = #{ractid,jdbcType=VARCHAR}
+  </update>
+</mapper>
