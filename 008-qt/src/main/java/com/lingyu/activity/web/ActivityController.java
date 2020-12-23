@@ -166,6 +166,13 @@ public class ActivityController {
         map.put("totalPage",totalPage);
         return map;
     }
-   /* @GetMapping("/Activity/buy")
-    private @ResponseBody Object getData(HttpServletRequest request){*/
+
+
+    @GetMapping("/Activity/buy")
+    private @ResponseBody Object buy(HttpServletRequest request){
+        Map<String,Object> map=new HashMap<>();
+        map.put("success",true);
+        map.put("orderid",514852144522366L);
+        return map;
+    }
 }
