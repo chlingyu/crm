@@ -24,4 +24,8 @@ public interface RecordActMapper {
     RecordAct getRecordActByUidAndActId(String uid, String actid);
 
     List<UserAndRecordAct> getUserByActIdAndState(String actid);
+
+    int insertRecordAct(String orderId, String uid, String actid);
+
+    int modifyRecordStateByUidAndActId(String uid, String actid);
 }

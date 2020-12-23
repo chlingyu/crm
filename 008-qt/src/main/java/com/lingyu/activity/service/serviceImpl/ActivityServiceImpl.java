@@ -86,4 +86,16 @@ public class ActivityServiceImpl implements ActivityService {
         List<UserAndComAct> userAndComActs=comActMapper.getUserAndComActByActId(actid);
         return userAndComActs;
     }
+
+    @Override
+    public int addRecordAct(String orderId, String uid, String actid) {
+        int count=recordActMapper.insertRecordAct(orderId,uid,actid);
+        return count;
+    }
+
+    @Override
+    public int modifyRecordStateByUidAndActId(String uid, String actid) {
+        int count=recordActMapper.modifyRecordStateByUidAndActId(uid,actid);
+        return count;
+    }
 }

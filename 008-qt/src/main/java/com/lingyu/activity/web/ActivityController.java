@@ -6,24 +6,32 @@ import com.lingyu.activity.service.ActivityService;
 import com.lingyu.login.model.*;
 import com.lingyu.util.DateUtil;
 import com.lingyu.util.JWTUtils;
+import com.lingyu.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Controller
 public class ActivityController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private RedisTemplate<String,Object> template;
 
     @GetMapping("/Activity/newAct")
     private @ResponseBody Object getNewAct(HttpServletRequest request){
@@ -171,8 +179,37 @@ public class ActivityController {
     @GetMapping("/Activity/buy")
     private @ResponseBody Object buy(HttpServletRequest request){
         Map<String,Object> map=new HashMap<>();
-        map.put("success",true);
-        map.put("orderid",514852144522366L);
-        return map;
+        User user= (User) request.getSession().getAttribute("account");
+        if(user==null){
+            map.put("errcode",10001);
+            map.put("errmsg","用户不存在");
+            return map;
+        }
+        String uid= String.valueOf(user.getUid());
+        String actid=request.getParameter("actid");
+
+
+       ValueOperations<String, Object> val=template.opsForValue();
+
+        String orderId= (String) template.opsForHash().get(uid,actid);  //从哈希数据中根据用户id,活动id取得订单号
+        if(orderId==null){ //订单号为空，说明还没有参与活动，从而没有订单id信息
+            orderId=UUIDUtil.get16UUID(); //用工具包生成16位唯一订单号*/
+            template.opsForHash().put(uid,actid,orderId); //在hash数据中生成 用户id，活动id，订单id的对应关系
+            val.set(orderId,actid,5,TimeUnit.SECONDS);
+            val.set(orderId+"_s",actid); //订单id和活动id对应关系(为了在监听器得到actid)
+            val.set(actid,uid);  //活动id和用户id对应关系(为了在监听器得到uid)
+            //同时给value数据绑定订单id和活动id的对应关系，设置订单id存活时间，一旦过期，监听器能得到想要的过期订单id
+            request.getSession().setAttribute("actid",actid);
+            int count=activityService.addRecordAct(orderId,uid,actid); //同时给mysql订单添加一笔交易记录，交易转态是创建交易，因此是未支付
+            map.put("success",true);
+            map.put("ordetid",orderId);
+            return map;
+        }else {
+            map.put("errcode",10002);
+            map.put("errmsg","您已经参与该活动了！");
+            return map;
+        }
+
     }
+
 }

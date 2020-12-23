@@ -25,8 +25,18 @@
     on a.uid=b.uid
     where actid = #{actid} and (state="已支付" or state="待评价" or state = "已评价")
   </select>
-
-
+  <insert id="insertRecordAct" >
+    insert into record_act (ractid, actid, uid,
+      state)
+    values (#{orderId}, #{actid}, #{uid},
+      "未支付")
+  </insert>
+  <update id="modifyRecordStateByUidAndActId" >
+    update record_act
+    set
+      state = "已超时"
+    where actid = #{actid} and uid = #{uid}
+  </update>
 
 
 

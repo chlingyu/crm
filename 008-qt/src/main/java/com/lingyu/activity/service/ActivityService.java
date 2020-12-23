@@ -24,4 +24,8 @@ public interface ActivityService {
     Integer countComActByActId(String actid);
 
     List<UserAndComAct> getUserAndComActByActId(String actid);
+
+    int addRecordAct(String orderId, String uid, String actid);
+
+    int modifyRecordStateByUidAndActId(String uid, String actid);
 }
