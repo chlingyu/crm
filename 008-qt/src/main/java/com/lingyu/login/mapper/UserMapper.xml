@@ -158,6 +158,21 @@
 
     where uid = #{uid}
   </update>
+  <update id="modifyUserMoneyByUid" >
+    update user
+    set
+      money = #{yu}
+    where uid = #{uid}
+
+  </update>
+  <select id="getMoneyByUid" resultType="java.lang.Float">
+    select
+        money
+    from user
+    where uid=#{uid}
+  </select>
+
+
 
 
 

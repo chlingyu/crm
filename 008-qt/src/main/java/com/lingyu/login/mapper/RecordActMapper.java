@@ -1,5 +1,6 @@
 package com.lingyu.login.mapper;
 
+import com.lingyu.login.model.Activity;
 import com.lingyu.login.model.RecordAct;
 import com.lingyu.login.model.User;
 import com.lingyu.login.model.UserAndRecordAct;
@@ -28,4 +29,8 @@ public interface RecordActMapper {
     int insertRecordAct(String orderId, String uid, String actid);
 
     int modifyRecordStateByUidAndActId(String uid, String actid);
+
+    Activity getActByOrderId(String orderid);
+
+    int modifyRecordStateByOrderId(String orderid);
 }

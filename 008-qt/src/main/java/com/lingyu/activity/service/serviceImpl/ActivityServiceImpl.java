@@ -98,4 +98,28 @@ public class ActivityServiceImpl implements ActivityService {
         int count=recordActMapper.modifyRecordStateByUidAndActId(uid,actid);
         return count;
     }
+
+    @Override
+    public Activity getActByOrderId(String orderid) {
+        Activity activity=recordActMapper.getActByOrderId(orderid);
+        return  activity;
+    }
+
+    @Override
+    public int modifyUserMoneyByUid(String uid,float yu) {
+        int count=userMapper.modifyUserMoneyByUid(uid,yu);
+        return count;
+    }
+
+    @Override
+    public int modifyRecordStateByOrderId(String orderid) {
+        int count=recordActMapper.modifyRecordStateByOrderId(orderid);
+        return  count;
+    }
+
+    @Override
+    public float getMoneyByUid(String uid) {
+        float money=userMapper.getMoneyByUid(uid);
+        return money;
+    }
 }

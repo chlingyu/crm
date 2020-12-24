@@ -37,6 +37,22 @@
       state = "已超时"
     where actid = #{actid} and uid = #{uid}
   </update>
+  <select id="getActByOrderId"  resultType="com.lingyu.login.model.Activity">
+    select
+        b.actPrice as actPrice
+    from record_act a
+    join activity b
+    on a.actid=b.actid
+    where a.ractid = #{orderid}
+  </select>
+  <update id="modifyRecordStateByOrderId" >
+    update record_act
+    set
+      state = "已支付"
+
+    where ractid = #{orderid}
+  </update>
+
 
 
 

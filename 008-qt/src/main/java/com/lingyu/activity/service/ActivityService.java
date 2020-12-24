@@ -28,4 +28,12 @@ public interface ActivityService {
     int addRecordAct(String orderId, String uid, String actid);
 
     int modifyRecordStateByUidAndActId(String uid, String actid);
+
+    Activity getActByOrderId(String orderid);
+
+    int modifyUserMoneyByUid(String uid,float yu);
+
+    int modifyRecordStateByOrderId(String orderid);
+
+    float getMoneyByUid(String uid);
 }

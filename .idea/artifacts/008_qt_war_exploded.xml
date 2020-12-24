@@ -46,9 +46,7 @@
           <element id="library" level="project" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.0" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.4.1" />
           <element id="library" level="project" name="Maven: com.zaxxer:HikariCP:3.4.5" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.30" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jdbc:5.3.2" />
-          <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.3.2" />
           <element id="library" level="project" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:2.0.0" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis:3.5.0" />
           <element id="library" level="project" name="Maven: org.mybatis:mybatis-spring:2.0.0" />
@@ -58,6 +56,23 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.11.3" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.11.3" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.15" />
+          <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-data-redis:2.4.1" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-redis:2.4.2" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-keyvalue:2.4.2" />
+          <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons:2.4.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-tx:5.3.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-oxm:5.3.2" />
+          <element id="library" level="project" name="Maven: org.springframework:spring-context-support:5.3.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.30" />
+          <element id="library" level="project" name="Maven: io.lettuce:lettuce-core:6.0.1.RELEASE" />
+          <element id="library" level="project" name="Maven: io.netty:netty-common:4.1.55.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-handler:4.1.55.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-resolver:4.1.55.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-buffer:4.1.55.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-codec:4.1.55.Final" />
+          <element id="library" level="project" name="Maven: io.netty:netty-transport:4.1.55.Final" />
+          <element id="library" level="project" name="Maven: io.projectreactor:reactor-core:3.4.1" />
+          <element id="library" level="project" name="Maven: org.reactivestreams:reactive-streams:1.0.3" />
         </element>
       </element>
       <element id="directory" name="META-INF">

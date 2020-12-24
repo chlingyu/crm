@@ -50,4 +50,7 @@ public interface UserMapper {
     int updateMoneyByUid(Integer uid, float money);
 
 
+    int modifyUserMoneyByUid(String uid,float yu);
+
+    float getMoneyByUid(String uid);
 }

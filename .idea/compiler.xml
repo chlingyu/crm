@@ -2,17 +2,18 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="008-qt" />
         <module name="003-intercept" />
         <module name="007-war" />
-        <module name="006encoding" />
-        <module name="filter-1" />
         <module name="005servlet2" />
+        <module name="008-qt" />
+        <module name="filter-1" />
         <module name="003servlet" />
+        <module name="006encoding" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Controller
@@ -195,14 +192,14 @@ public class ActivityController {
         if(orderId==null){ //订单号为空，说明还没有参与活动，从而没有订单id信息
             orderId=UUIDUtil.get16UUID(); //用工具包生成16位唯一订单号*/
             template.opsForHash().put(uid,actid,orderId); //在hash数据中生成 用户id，活动id，订单id的对应关系
-            val.set(orderId,actid,5,TimeUnit.SECONDS);
+            val.set(orderId,actid,60,TimeUnit.SECONDS);
             val.set(orderId+"_s",actid); //订单id和活动id对应关系(为了在监听器得到actid)
             val.set(actid,uid);  //活动id和用户id对应关系(为了在监听器得到uid)
             //同时给value数据绑定订单id和活动id的对应关系，设置订单id存活时间，一旦过期，监听器能得到想要的过期订单id
             request.getSession().setAttribute("actid",actid);
             int count=activityService.addRecordAct(orderId,uid,actid); //同时给mysql订单添加一笔交易记录，交易转态是创建交易，因此是未支付
             map.put("success",true);
-            map.put("ordetid",orderId);
+            map.put("orderid",orderId);
             return map;
         }else {
             map.put("errcode",10002);
@@ -211,5 +208,52 @@ public class ActivityController {
         }
 
     }
+
+
+    @GetMapping("/Activity/pay")
+    private @ResponseBody Object pay(HttpServletRequest request){
+        Map<String,Object> map=new HashMap<>();
+        User user= (User) request.getSession().getAttribute("account");
+        if(user==null){
+            map.put("errcode",10001);
+            map.put("errmsg","账号闲置时间太长，请重新登录");
+            return map;
+        }
+        String uid= String.valueOf(user.getUid());
+        String orderid=request.getParameter("orderid");
+        Set<String> allOrder=template.keys("*_s");
+        boolean flag=false;
+        for(String data:allOrder){
+            data=data.replace("_s","");
+            if(data.equals(orderid)){
+                flag=true;
+                break;
+            }
+        }
+        if(!flag){
+            map.put("errcode",10003);
+            map.put("errmsg","该订单已超过支付期限");
+            return map;
+        }
+        Activity res=activityService.getActByOrderId(orderid);
+        Integer price_int=res.getActPrice();
+        float userMoney=activityService.getMoneyByUid(uid);
+        float price=price_int;
+        if(price > userMoney) {
+            map.put("errcode",10002);
+            map.put("errmsg","您当前余额不足，请先充值！");
+            return map;
+        }
+        float yu=userMoney-price;
+        int resultMoney=activityService.modifyUserMoneyByUid(uid,yu);
+        int resultState=activityService.modifyRecordStateByOrderId(orderid);
+        if(resultMoney==1 && resultState==1){
+            map.put("success",true);
+            map.put("orderid",orderid);
+
+        }
+        return map;
+    }
+
 
 }
