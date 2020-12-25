@@ -143,6 +143,8 @@ public class ActivityController {
                 type="您已下单";
             }if(res.getState().equals("已支付")&&type.equals("立即参与")){
                 type="参与成功";
+            }if(res.getState().equals("已支付")&&type.equals("立即参与")){
+                type="参与成功";
             }
         }
 

@@ -1,9 +1,6 @@
 package com.lingyu.login.mapper;
 
-import com.lingyu.login.model.Activity;
-import com.lingyu.login.model.RecordAct;
-import com.lingyu.login.model.User;
-import com.lingyu.login.model.UserAndRecordAct;
+import com.lingyu.login.model.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -33,4 +30,18 @@ public interface RecordActMapper {
     Activity getActByOrderId(String orderid);
 
     int modifyRecordStateByOrderId(String orderid);
+
+    int modifyRecordStateByUidAndStateAndNowTime(Integer uid, String nowTime);
+
+    Integer countRecordActByUid(Integer uid);
+
+    int countRecordActByUidAndState(Integer uid);
+
+    int countRecordActByUidAndOneState(Integer uid, String sql);
+
+    List<RecordActAndActivity> getAllOrder(Integer uid, Integer index,  Integer maxRow);
+
+    List<RecordActAndActivity> getOrderByQt(Integer uid, Integer index,  Integer maxRow);
+
+    List<RecordActAndActivity> getOrderBySql(Integer uid, Integer index,  Integer maxRow, String sql);
 }

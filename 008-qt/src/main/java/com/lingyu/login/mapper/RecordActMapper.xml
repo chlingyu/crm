@@ -53,6 +53,77 @@
     where ractid = #{orderid}
   </update>
 
+  <update id="modifyRecordStateByUidAndStateAndNowTime" >
+    update record_act a
+    join activity b
+    on a.actid=b.actid and b.endTime>#{nowTime}
+    set
+      a.state = "待评价"
+    where uid = #{uid} and state="已支付"
+  </update>
+  <select id="countRecordActByUid" resultType="java.lang.Integer">
+    select
+        count(*)
+    from record_act a
+    join activity b
+    on a.actid=b.actid
+    where uid = #{uid}
+  </select>
+  <select id="countRecordActByUidAndState" resultType="java.lang.Integer">
+    select
+        count(*)
+    from record_act
+    where uid = #{uid} and state!="已支付" and state!="未支付" and state!="待评价"
+  </select>
+  <select id="countRecordActByUidAndOneState" resultType="java.lang.Integer">
+    select
+        count(*)
+    from record_act
+    where uid = #{uid} and state=#{sql}
+  </select>
+  <select id="getAllOrder"  resultType="com.lingyu.login.model.RecordActAndActivity">
+    select
+        b.beginTime as beginTime,b.actImg as actImg,b.actName as actName,
+        b.actAddress as actAddress,b.actCity as actCity,b.actPrice as actPrice,
+        b.actNum as actNum,a.ractid as ractid,a.addtime as addtime,a.state as state,b.actid as actid
+    from record_act a
+    join activity b
+    on a.actid=b.actid
+    where uid = #{uid}
+    order by addtime desc
+    limit #{index},#{maxRow}
+  </select>
+  <select id="getOrderByQt"  resultType="com.lingyu.login.model.RecordActAndActivity">
+    select
+        b.beginTime as beginTime,b.actImg as actImg,b.actName as actName,
+        b.actAddress as actAddress,b.actCity as actCity,b.actPrice as actPrice,
+        b.actNum as actNum,a.ractid as ractid,a.addtime as addtime,a.state as state,b.actid as actid
+    from record_act a
+    join activity b
+    on a.actid=b.actid
+    where uid = #{uid} and state!="已支付" and state!="未支付" and state!="待评价"
+    order by addtime desc
+    limit #{index},#{maxRow}
+  </select>
+  <select id="getOrderBySql"  resultType="com.lingyu.login.model.RecordActAndActivity">
+    select
+        b.beginTime as beginTime,b.actImg as actImg,b.actName as actName,
+        b.actAddress as actAddress,b.actCity as actCity,b.actPrice as actPrice,
+        b.actNum as actNum,a.ractid as ractid,a.addtime as addtime,a.state as state,b.actid as actid
+    from record_act a
+    join activity b
+    on a.actid=b.actid
+    where uid = #{uid} and state=#{sql}
+    order by addtime desc
+    limit #{index},#{maxRow}
+  </select>
+
+
+
+
+
+
+
 
 
 
