@@ -27,7 +27,7 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    @Autowired
+    @Resource
     private RedisTemplate<String,Object> template;
 
     @GetMapping("/Activity/newAct")
@@ -143,8 +143,6 @@ public class ActivityController {
                 type="您已下单";
             }if(res.getState().equals("已支付")&&type.equals("立即参与")){
                 type="参与成功";
-            }if(res.getState().equals("已支付")&&type.equals("立即参与")){
-                type="参与成功";
             }
         }
 
@@ -188,17 +186,17 @@ public class ActivityController {
         String actid=request.getParameter("actid");
 
 
-       ValueOperations<String, Object> val=template.opsForValue();
-
+        ValueOperations<String, Object> val=template.opsForValue();
         String orderId= (String) template.opsForHash().get(uid,actid);  //从哈希数据中根据用户id,活动id取得订单号
         if(orderId==null){ //订单号为空，说明还没有参与活动，从而没有订单id信息
             orderId=UUIDUtil.get16UUID(); //用工具包生成16位唯一订单号*/
+            val.set(orderId,actid,20,TimeUnit.SECONDS);
             template.opsForHash().put(uid,actid,orderId); //在hash数据中生成 用户id，活动id，订单id的对应关系
-            val.set(orderId,actid,60,TimeUnit.SECONDS);
-            val.set(orderId+"_s",actid); //订单id和活动id对应关系(为了在监听器得到actid)
-            val.set(actid,uid);  //活动id和用户id对应关系(为了在监听器得到uid)
+            String OrderIdAndActid=orderId+"actid";
+            String OrderIdAndUid=orderId+"uid";
+            val.set(OrderIdAndActid,actid); //订单id和活动id对应关系(为了在监听器得到actid)
+            val.set(OrderIdAndUid,uid);  //活动id和用户id对应关系(为了在监听器得到uid)
             //同时给value数据绑定订单id和活动id的对应关系，设置订单id存活时间，一旦过期，监听器能得到想要的过期订单id
-            request.getSession().setAttribute("actid",actid);
             int count=activityService.addRecordAct(orderId,uid,actid); //同时给mysql订单添加一笔交易记录，交易转态是创建交易，因此是未支付
             map.put("success",true);
             map.put("orderid",orderId);
@@ -223,10 +221,10 @@ public class ActivityController {
         }
         String uid= String.valueOf(user.getUid());
         String orderid=request.getParameter("orderid");
-        Set<String> allOrder=template.keys("*_s");
+        Set<String> allOrder=template.keys("*actid");
         boolean flag=false;
         for(String data:allOrder){
-            data=data.replace("_s","");
+            data=data.replace("actid","");
             if(data.equals(orderid)){
                 flag=true;
                 break;

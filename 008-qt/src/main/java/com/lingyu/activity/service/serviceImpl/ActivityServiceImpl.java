@@ -98,7 +98,6 @@ public class ActivityServiceImpl implements ActivityService {
         int count=recordActMapper.modifyRecordStateByUidAndActId(uid,actid);
         return count;
     }
-
     @Override
     public Activity getActByOrderId(String orderid) {
         Activity activity=recordActMapper.getActByOrderId(orderid);
