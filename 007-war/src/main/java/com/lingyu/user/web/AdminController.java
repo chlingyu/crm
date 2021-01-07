@@ -22,10 +22,12 @@ public class AdminController {
     private MenuService menuService;
 
     @GetMapping("/getMenu")
-    public @ResponseBody
-    Map getMenu() {
+    public @ResponseBody Map getMenu(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
-        List<Menu> menuList = menuService.getMenu();
+        Log log= (Log) request.getSession().getAttribute("log");
+        Integer roleid=log.getRoleid();
+        List<Menu> menuList = menuService.getMenuByRoleid(roleid);
+        /*List<Menu> menuList = menuService.getMenu();*/
         if (menuList == null) {
             map.put("error", 101);
             map.put("resp", "获取错误");

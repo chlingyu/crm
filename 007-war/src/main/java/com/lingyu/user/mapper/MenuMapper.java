@@ -20,4 +20,6 @@ public interface MenuMapper {
     int updateByPrimaryKey(Menu record);
 
     List<Menu> getMenu();
+
+    List<Menu> getMenuByRoleid(Integer roleid);
 }

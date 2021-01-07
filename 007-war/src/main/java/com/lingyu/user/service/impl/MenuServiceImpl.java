@@ -13,9 +13,16 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private MenuMapper menuMapper;
+
     @Override
     public List<Menu> getMenu() {
         List<Menu> menuList=menuMapper.getMenu();
+        return menuList;
+    }
+
+    @Override
+    public List<Menu> getMenuByRoleid(Integer roleid) {
+        List<Menu> menuList=menuMapper.getMenuByRoleid(roleid);
         return menuList;
     }
 }

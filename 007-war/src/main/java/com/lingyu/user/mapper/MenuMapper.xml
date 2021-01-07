@@ -15,6 +15,14 @@
     <include refid="Base_Column_List" />
     from sys_menu
   </select>
+  <select id="getMenuByRoleid"  resultMap="BaseResultMap">
+    select
+        a.menuid as menuid,a.menuName as menuName,a.menuUrl as menuUrl,a.fid as fid
+    from sys_menu a
+    join sys_power b
+    on a.menuid=b.menuid
+    where b.roleid=#{roleid}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from sys_menu
     where menuid = #{menuid,jdbcType=INTEGER}

@@ -5,5 +5,8 @@ import com.lingyu.user.model.Menu;
 import java.util.List;
 
 public interface MenuService {
+
     List<Menu> getMenu();
+
+    List<Menu> getMenuByRoleid(Integer roleid);
 }
